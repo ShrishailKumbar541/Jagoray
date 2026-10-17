@@ -1,0 +1,779 @@
+<div class="site-shell">
+  <a class="skip-link" href="#main-content">{{ translate('Skip to main content') }}</a>
+
+  <header class="site-header" [class.is-scrolled]="activeSection !== 'home' || menuOpen"
+    [class.mobile-header-hidden]="!isMobileHeaderVisible && !menuOpen">
+    <!-- <div class="announcement-bar">
+      <div class="container announcement-inner">
+        <span><i class="fas fa-leaf" aria-hidden="true"></i> {{ translate('Doorstep delivery available across
+          Karnataka') }}</span>
+        <a href="tel:+919740813888">{{ translate('Talk to JAGORAY') }} <i class="fas fa-arrow-right"
+            aria-hidden="true"></i></a>
+      </div>
+    </div> -->
+
+    <div class="nav-wrap container">
+      <button class="brand" type="button" (click)="scrollTo('home')" [attr.aria-label]="translate('JAGORAY home')">
+        <img class="brand-mark" src='assets/images/logo.png' [alt]="translate('JAGORAY logo')">
+        <span class="brand-copy">
+          <strong>JAGORAY</strong>
+          <small>{{ translate('The Organic Revolution') }}</small>
+        </span>
+      </button>
+
+      <nav class="desktop-nav" [attr.aria-label]="translate('Primary navigation')">
+        <button type="button" class="nav-link" [class.active]="activeSection === 'home'" (click)="scrollTo('home')">{{
+          translate('Home') }}</button>
+        <button type="button" class="nav-link" [class.active]="activeSection === 'about'" (click)="scrollTo('about')">{{
+          translate('Our Story') }}</button>
+        <button type="button" class="nav-link" [class.active]="activeSection === 'products'"
+          (click)="scrollTo('products')">{{ translate('Products') }}</button>
+        <button type="button" class="nav-link" [class.active]="activeSection === 'quality'"
+          (click)="scrollTo('quality')">{{ translate('Quality') }}</button>
+        <button type="button" class="nav-link" [class.active]="activeSection === 'gallery'"
+          (click)="scrollTo('gallery')">{{ translate('Gallery') }}</button>
+        <button type="button" class="nav-link" [class.active]="activeSection === 'contact'"
+          (click)="scrollTo('contact')">{{ translate('Contact') }}</button>
+      </nav>
+
+      <div class="language-switch desktop-language" role="group"
+        [attr.aria-label]="language === 'kn' ? 'ಭಾಷೆ ಆಯ್ಕೆ' : 'Choose language'">
+        <button type="button" [class.active]="language === 'en'" [attr.aria-pressed]="language === 'en'"
+          (click)="setLanguage('en')">EN</button>
+        <button type="button" [class.active]="language === 'kn'" [attr.aria-pressed]="language === 'kn'"
+          (click)="setLanguage('kn')">ಕನ್ನಡ</button>
+      </div>
+
+      <a class="nav-cta" [href]="generalWhatsAppLink()" target="_blank" rel="noopener">
+        <i class="fab fa-whatsapp" aria-hidden="true"></i>
+        <span>{{ translate('Order / Enquire') }}</span>
+      </a>
+
+      <button class="mobile-toggle" type="button" [attr.aria-label]="translate('Toggle menu')"
+        [attr.aria-expanded]="menuOpen" aria-controls="mobile-navigation" (click)="menuOpen = !menuOpen">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <div id="mobile-navigation" class="mobile-menu container" [class.open]="menuOpen"
+      [attr.aria-label]="translate('Mobile navigation menu')">
+      <button type="button" (click)="scrollTo('home')">{{ translate('Home') }}</button>
+      <button type="button" (click)="scrollTo('about')">{{ translate('Our Story') }}</button>
+      <button type="button" (click)="scrollTo('products')">{{ translate('Products') }}</button>
+      <button type="button" (click)="scrollTo('quality')">{{ translate('Quality') }}</button>
+      <button type="button" (click)="scrollTo('gallery')">{{ translate('Gallery') }}</button>
+      <button type="button" (click)="scrollTo('contact')">{{ translate('Contact') }}</button>
+      <a class="mobile-order" [href]="generalWhatsAppLink()" target="_blank" rel="noopener">{{ translate('Order on
+        WhatsApp') }}</a>
+      <div class="language-switch mobile-language" role="group"
+        [attr.aria-label]="language === 'kn' ? 'ಭಾಷೆ ಆಯ್ಕೆ' : 'Choose language'">
+        <button type="button" [class.active]="language === 'en'" [attr.aria-pressed]="language === 'en'"
+          (click)="setLanguage('en')">EN</button>
+        <button type="button" [class.active]="language === 'kn'" [attr.aria-pressed]="language === 'kn'"
+          (click)="setLanguage('kn')">ಕನ್ನಡ</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" [class.menu-open]="menuOpen">
+    <section id="home" class="luxury-hero-slider" [attr.aria-label]="translate('Featured JAGORAY products')"
+      (mouseenter)="setHeroPaused(true)" (mouseleave)="setHeroPaused(false)" (focusin)="setHeroPaused(true)"
+      (focusout)="onHeroFocusOut($event)" (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)">
+      <div class="luxury-slider-track" [style.transform]="'translateX(-' + (currentSlide * 100) + '%)'">
+        <article class="luxury-slide" *ngFor="let slide of heroSlides; let i = index"
+          [class.active]="i === currentSlide">
+          <div class="luxury-slide-image" [style.background-image]="'url(' + slide.image + ')'" aria-hidden="true">
+          </div>
+          <div class="luxury-slide-overlay" aria-hidden="true"></div>
+          <div class="container luxury-slide-content">
+            <span class="luxury-badge">{{ translate(slide.badge) }}</span>
+            <h1>{{ translate(slide.title) }}</h1>
+            <p>{{ translate(slide.subtitle) }}</p>
+            <div class="luxury-actions">
+              <button class="btn btn-primary" type="button" (click)="scrollTo('products')">{{
+                translate(slide.primaryCta) }}</button>
+              <button class="btn btn-secondary" type="button" (click)="scrollTo('about')">{{
+                translate(slide.secondaryCta) }}</button>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <button class="slider-arrow prev" type="button" (click)="prevSlide()"
+        [attr.aria-label]="translate('Previous slide')">
+        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+      </button>
+      <button class="slider-arrow next" type="button" (click)="nextSlide()" [attr.aria-label]="translate('Next slide')">
+        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+      </button>
+
+      <div class="slider-dots" [attr.aria-label]="translate('Slide pagination')">
+        <button *ngFor="let slide of heroSlides; let i = index" type="button" [class.active]="i === currentSlide"
+          (click)="goToSlide(i)" [attr.aria-label]="translate('Go to slide ') + (i + 1)"></button>
+      </div>
+    </section>
+
+    <!-- <section id="home" class="hero-section">
+      <div class="hero-noise"></div>
+      <div class="hero-orb hero-orb-one"></div>
+      <div class="hero-orb hero-orb-two"></div>
+      <div class="hero-leaf hero-leaf-one">✦</div>
+      <div class="hero-leaf hero-leaf-two">✦</div>
+
+      <div class="container hero-grid">
+        <div class="hero-copy" data-reveal>
+          <div class="hero-kicker"><span></span> TEJAS ORGANIC FOODS · SINCE 2010</div>
+          <p class="hero-overline">PURE BY ORIGIN. TIMELESS BY TRADITION.</p>
+          <h1>Nature's <em>sweetest</em> story.</h1>
+          <p class="hero-subtitle">Organic jaggery and natural pantry favourites, rooted in our farms and crafted with
+            care.</p>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary" type="button" (click)="scrollTo('products')">Explore products <i
+                class="fas fa-arrow-right" aria-hidden="true"></i></button>
+            <button class="btn btn-secondary" type="button" (click)="scrollTo('about')">Discover our story</button>
+          </div>
+
+          <div class="hero-delivery-banner" data-reveal>
+            <div class="delivery-icon"><i class="fas fa-truck" aria-hidden="true"></i></div>
+            <div class="delivery-copy">
+              <strong>Doorstep delivery available</strong>
+              <span>Across Karnataka and selected cities for retail and bulk orders.</span>
+            </div>
+            <a [href]="generalWhatsAppLink('Check availability')"
+              target="_blank" rel="noopener">{{ translate('Check availability') }}</a>
+          </div>
+
+          <div class="hero-trust-row" aria-label="Brand highlights">
+            <div><strong>Since 2010</strong><span>Our journey</span></div>
+            <div><strong>Farm-led</strong><span>Organic focus</span></div>
+            <div><strong>Traditional</strong><span>Craftsmanship</span></div>
+          </div>
+        </div>
+
+        <div class="hero-visual" data-reveal>
+          <div class="hero-product-stage">
+            <div class="stage-label"><span>01</span><span>Signature Jaggery</span></div>
+            <div class="stage-glow"></div>
+            <img src="assets/images/jaggery-lumps.png" alt="JAGORAY organic jaggery" class="hero-product-art">
+            <div class="stage-card">
+              <span>From our farms</span>
+              <strong>Organic Jaggery</strong>
+              <small>Mudhol, Karnataka</small>
+            </div>
+            <div class="stage-seal">J<br><small>ORGANIC</small></div>
+          </div>
+        </div>
+      </div>
+
+      <a class="hero-scroll" href="#products" aria-label="Scroll to products">
+        <span>Scroll to explore</span>
+        <i class="fas fa-arrow-down" aria-hidden="true"></i>
+      </a>
+    </section> -->
+
+    <section class="editorial-banner" [attr.aria-label]="translate('Brand story introduction')">
+      <div class="container editorial-inner">
+        <div class="editorial-copy" data-reveal>
+          <span class="eyebrow">{{ translate('Farm to family') }}</span>
+          <h2>{{ translate("Nature's sweetest story, rooted in tradition.") }}</h2>
+          <p>{{ translate('Organic jaggery, pantry essentials and farm-led goodness crafted for a healthier, more
+            mindful kitchen.') }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- <section class="marquee-strip" aria-label="JAGORAY values">
+      <div class="marquee-track">
+        <span>Organic roots</span><b>✦</b><span>Traditional craft</span><b>✦</b><span>Natural
+          ingredients</span><b>✦</b><span>Farm to table</span><b>✦</b>
+        <span>Organic roots</span><b>✦</b><span>Traditional craft</span><b>✦</b><span>Natural
+          ingredients</span><b>✦</b><span>Farm to table</span><b>✦</b>
+      </div>
+    </section> -->
+
+    <section id="about" class="about-section section-space">
+      <div class="container about-grid">
+        <div class="about-visual" data-reveal>
+          <div class="about-image-card">
+            <!-- <div class="about-image-card">
+            <div class="about-image-top"><span>EST.</span><strong>2010</strong></div>
+            <div class="about-sugar-shape"></div>
+            <div class="about-circle-copy"><span>THE</span><strong>ORGANIC</strong><span>REVOLUTION</span></div>
+            <div class="about-caption">Farm → Tradition → JAGORAY</div>
+          </div> -->
+            <img src="assets/images/our-story.jpg" [alt]="translate('JAGORAY organic products')">
+          </div>
+          <div class="about-float-card"><i class="fas fa-seedling" aria-hidden="true"></i><span>{{ translate('Rooted in
+              agriculture') }}</span></div>
+        </div>
+
+        <div class="about-copy" data-reveal>
+          <span class="eyebrow">{{ translate('OUR STORY') }}</span>
+          <h2>{{ translate('Closer to the farm. Closer to what matters.') }}</h2>
+          <p>{{ translate('Tejas Organic Foods began with a simple belief: food should remain close to its roots. Since
+            2010, our journey has been guided by organic farming, traditional methods and a commitment to products with
+            a clear sense of origin.') }}</p>
+          <p>{{ translate('JAGORAY carries that philosophy forward through jaggery, natural pantry essentials and
+            products inspired by the richness of the farm.') }}</p>
+
+          <div class="story-points">
+            <article><span>01</span>
+              <div><strong>{{ translate('Own Organic Farms') }}</strong>
+                <p>{{ translate('Our story begins with the land and the people who care for it.') }}</p>
+              </div>
+            </article>
+            <article><span>02</span>
+              <div><strong>{{ translate('Traditional Processing') }}</strong>
+                <p>{{ translate('We keep the character of familiar foods at the heart of our work.') }}</p>
+              </div>
+            </article>
+            <article><span>03</span>
+              <div><strong>{{ translate('Natural Ingredients') }}</strong>
+                <p>{{ translate('Simple product stories, clear ingredients and a quality-first approach.') }}</p>
+              </div>
+            </article>
+          </div>
+
+          <button class="text-link" type="button" (click)="scrollTo('quality')">{{ translate('See our quality journey')
+            }} <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- <section class="philosophy-band">
+      <div class="container philosophy-grid">
+        <div data-reveal>
+          <span class="eyebrow eyebrow-light">OUR PHILOSOPHY</span>
+          <h2>Good for the earth. Good for farmers. Good for every home.</h2>
+        </div>
+        <div class="philosophy-cards" data-reveal>
+          <article><span>01</span><strong>Organic Farming</strong>
+            <p>Natural cultivation stays at the centre of our story.</p>
+          </article>
+          <article><span>02</span><strong>Traditional Craft</strong>
+            <p>Time-tested methods shape the character of our food.</p>
+          </article>
+          <article><span>03</span><strong>Responsible Growth</strong>
+            <p>We grow with care for land, food and long-term trust.</p>
+          </article>
+        </div>
+      </div>
+    </section> -->
+
+    <section id="products" class="products-section section-space">
+      <div class="container">
+        <div class="section-heading" data-reveal>
+          <div>
+            <span class="eyebrow">{{ translate('OUR BEST SELLER PRODUCTS') }}</span>
+            <h2>{{ translate('Made for everyday kitchens.') }}</h2>
+          </div>
+          <p>{{ translate('From signature jaggery to convenient pantry favourites, explore the JAGORAY collection.') }}
+          </p>
+        </div>
+
+        <!-- <div class="product-filters" role="tablist" aria-label="Filter products">
+          <button type="button" [class.active]="selectedCategory === 'All'" (click)="setCategory('All')">All
+            products</button>
+          <button type="button" [class.active]="selectedCategory === 'Jaggery'"
+            (click)="setCategory('Jaggery')">Jaggery</button>
+          <button type="button" [class.active]="selectedCategory === 'Pantry'" (click)="setCategory('Pantry')">Organic
+            pantry</button>
+        </div> -->
+
+        <div class="product-grid">
+          <article class="product-card" *ngFor="let product of filteredProducts; let i = index" data-reveal
+            [style.--reveal-order]="i % 4">
+            <button class="product-image-wrap" type="button" (click)="openProduct(product)"
+              [attr.aria-label]="productImageAlt(product.name)">
+              <!-- <span class="product-number">{{ (i + 1).toString().padStart(2, '0') }}</span> -->
+              <!-- <span class="product-tag">{{ product.category }}</span> -->
+              <div class="product-art-backdrop"></div>
+              <img [src]="product.image" [alt]="translate(product.name)">
+              <!-- <span class="image-action"><i class="fas fa-plus" aria-hidden="true"></i></span> -->
+            </button>
+            <div class="product-body">
+              <h3>{{ translate(product.name) }}</h3>
+              <div class="product-inline-facts">
+                <span><strong>{{ translate('Pack:') }}</strong> {{ product.packSize }}</span>
+                <!-- <span><strong>Origin:</strong> {{ product.origin }}</span> -->
+              </div>
+              <p>{{ translate(product.description) }}</p>
+              <div class="product-footer">
+                <button type="button" class="text-link" (click)="openProduct(product)">{{ translate('View details') }}
+                  <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
+                <a class="mini-order" [href]="productWhatsAppLink(product)" target="_blank" rel="noopener"
+                  [attr.aria-label]="translate('Enquire about product on WhatsApp')"><i class="fab fa-whatsapp"
+                    aria-hidden="true"></i></a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="products-bottom" data-reveal>
+          <p>{{ translate('Looking for retail packs, bulk requirements or partnerships?') }}</p>
+          <button class="btn btn-dark" type="button" (click)="scrollTo('contact')">{{ translate('Start an enquiry') }}
+            <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="delivery-section section-space">
+      <div class="container">
+        <div class="delivery-card" data-reveal>
+          <div>
+            <span class="eyebrow">{{ translate('DELIVERY') }}</span>
+            <h2>{{ translate('Fresh from our farm to your doorstep.') }}</h2>
+          </div>
+          <div class="delivery-points">
+            <div>
+              <span class="delivery-point-icon"><i class="fas fa-location-dot" aria-hidden="true"></i></span>
+              <strong>{{ translate('Pan Karnataka reach') }}</strong>
+              <p>{{ translate('Convenient service across major locations for home delivery.') }}</p>
+            </div>
+            <div>
+              <span class="delivery-point-icon"><i class="fas fa-box-open" aria-hidden="true"></i></span>
+              <strong>{{ translate('Retail & bulk') }}</strong>
+              <p>{{ translate('Perfect for regular households and larger supply needs.') }}</p>
+            </div>
+            <div>
+              <span class="delivery-point-icon"><i class="fas fa-clock" aria-hidden="true"></i></span>
+              <strong>{{ translate('Fast confirmation') }}</strong>
+              <p>{{ translate('Quick WhatsApp support for pricing, pack sizes and timing.') }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust-band section-space">
+      <div class="container">
+        <div class="section-heading" data-reveal>
+          <div>
+            <span class="eyebrow">{{ translate('WHY CHOOSE JAGORAY') }}</span>
+            <h2>{{ translate('Trusted by homes that value clean, honest ingredients.') }}</h2>
+          </div>
+          <p>{{ translate('Every product is shaped around transparency, taste and the belief that food should stay close
+            to the land.') }}</p>
+        </div>
+
+        <div class="trust-grid">
+          <article class="trust-card" *ngFor="let item of trustHighlights" data-reveal>
+            <span class="fact">{{ translate(item.value) }}</span>
+            <strong>{{ translate(item.label) }}</strong>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- <section class="testimonials-section section-space">
+      <div class="container">
+        <div class="section-heading" data-reveal>
+          <div>
+            <span class="eyebrow">{{ translate('CUSTOMER WORDS') }}</span>
+            <h2>{{ translate('Families choose JAGORAY for everyday trust.') }}</h2>
+          </div>
+          <p>{{ translate('From farmhouse goodness to home pantry essentials, our customers value consistency, taste and
+            a simple ingredient story.') }}</p>
+        </div>
+
+        <div class="testimonial-grid">
+          <article class="testimonial-card" *ngFor="let item of testimonials" data-reveal>
+            <div class="quote-mark">“</div>
+            <p>{{ translate(item.quote) }}</p>
+            <div class="testimonial-author">
+              <strong>{{ item.name }}</strong>
+              <span>{{ translate(item.title) }}</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section> -->
+
+    <section class="faq-section section-space">
+      <div class="container faq-shell">
+        <div class="faq-copy" data-reveal>
+          <span class="eyebrow">{{ translate('FAQ') }}</span>
+          <h2>{{ translate('Common questions from customers and bulk buyers.') }}</h2>
+          <p>{{ translate('We keep the process simple: clear sourcing, clear communication and reliable support from
+            enquiry to doorstep delivery.') }}</p>
+        </div>
+
+        <div class="faq-list" data-reveal>
+          <article class="faq-item" *ngFor="let item of faqs">
+            <h3>{{ translate(item.question) }}</h3>
+            <p>{{ translate(item.answer) }}</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="business-essentials section-space">
+      <div class="container">
+        <div class="section-heading" data-reveal>
+          <div>
+            <span class="eyebrow">{{ translate('BUSINESS DETAILS') }}</span>
+            <h2>{{ translate('Real support, transparent operations and clear coverage.') }}</h2>
+          </div>
+          <p>{{ translate('We keep communication simple and practical — from founder details to delivery coverage,
+            operating hours and service policies.') }}</p>
+        </div>
+
+        <div class="business-grid">
+          <article class="founder-card" data-reveal>
+            <span class="eyebrow">{{ translate('FOUNDER') }}</span>
+            <div class="founder-portrait">
+              <img [src]="founderProfile.image" [alt]="founderProfile.name">
+            </div>
+            <div class="founder-copy">
+
+              <h3>{{ founderProfile.name }}</h3>
+              <strong>{{ translate(founderProfile.title) }}</strong>
+              <p>{{ translate(founderProfile.summary) }}</p>
+            </div>
+          </article>
+
+          <div class="business-stack" data-reveal>
+            <div class="info-card">
+              <span class="eyebrow">{{ translate('OUR APPROACH') }}</span>
+              <p>{{ translate('Good food begins with honest ingredients, transparent sourcing and respect for the
+                land.') }}</p>
+            </div>
+            <div class="compliance-card" data-reveal>
+              <span class="eyebrow">CERTIFICATIONS</span>
+              <h3>Compliance and documentation</h3>
+              <div class="compliance-rows">
+                <div><span>FSSAI</span><strong>{{ complianceDetails.fssaiLicenseNumber }}</strong></div>
+                <div><span>Organic</span><strong>{{ complianceDetails.organicCertificationNumber }}</strong></div>
+                <div><span>ISO</span><strong>{{ complianceDetails.isoCertificationNumber }}</strong></div>
+                <div><span>GSTIN</span><strong>{{ complianceDetails.gstin }}</strong></div>
+              </div>
+              <div class="certificate-actions">
+                <a *ngFor="let certificate of certificateDocuments" [href]="certificate.file" target="_blank"
+                  rel="noopener">
+                  {{ certificate.label }}
+                  <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <span class="eyebrow">{{ translate('BUSINESS HOURS') }}</span>
+              <p>{{ translate(businessHours.weekdays) }}</p>
+              <p>{{ translate(businessHours.sunday) }}</p>
+              <small>{{ translate(businessHours.note) }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="policy-grid" data-reveal>
+          <article class="policy-card">
+            <span class="eyebrow">{{ translate('SHIPPING') }}</span>
+            <h3>{{ translate('Doorstep delivery') }}</h3>
+            <p>{{ translate(policies.shipping) }}</p>
+          </article>
+          <article class="policy-card">
+            <span class="eyebrow">{{ translate('PRIVACY') }}</span>
+            <h3>{{ translate('Data protection') }}</h3>
+            <p>{{ translate(policies.privacy) }}</p>
+          </article>
+          <article class="policy-card">
+            <span class="eyebrow">{{ translate('REFUNDS') }}</span>
+            <h3>{{ translate('Returns & replacements') }}</h3>
+            <p>{{ translate(policies.refund) }}</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="quality" class="quality-section section-space">
+      <div class="container">
+        <div class="quality-head" data-reveal>
+          <span class="eyebrow">{{ translate('QUALITY & RECOGNITION') }}</span>
+          <h2>{{ translate('Trust should be something you can see.') }}</h2>
+          <p>{{ translate('Our website already includes certification references and recognition from the JAGORAY
+            journey. Keep the actual certificate details current before publishing.') }}</p>
+        </div>
+
+        <div class="quality-layout">
+          <div class="recognition-carousel" data-reveal [attr.aria-label]="translate('JAGORAY recognition highlights')"
+            (mouseenter)="setRecognitionPaused(true)" (mouseleave)="setRecognitionPaused(false)"
+            (focusin)="setRecognitionPaused(true)" (focusout)="onRecognitionFocusOut($event)"
+            (touchstart)="onRecognitionTouchStart($event)" (touchend)="onRecognitionTouchEnd($event)">
+            <div class="recognition-carousel-head">
+              <div>
+                <span class="eyebrow">{{ translate('RECOGNITION HIGHLIGHTS') }}</span>
+                <h3>{{ translate('Honouring the journey.') }}</h3>
+              </div>
+              <div class="recognition-count" aria-hidden="true">
+                <strong>{{ (currentRecognitionSlide + 1).toString().padStart(2, '0') }}</strong>
+                <span>/ {{ recognitionSlides.length.toString().padStart(2, '0') }}</span>
+              </div>
+            </div>
+
+            <div class="recognition-viewport">
+              <div class="recognition-track"
+                [style.transform]="'translateX(-' + (currentRecognitionSlide * 100) + '%)'">
+                <article class="recognition-slide" *ngFor="let slide of recognitionSlides; let i = index">
+                  <div class="recognition-art" [class.has-image]="slide.image">
+                    <img *ngIf="slide.image" [src]="slide.image" [alt]="translate(slide.title)">
+                    <i *ngIf="!slide.image" class="fas fa-award" aria-hidden="true"></i>
+                    <span>{{ (i + 1).toString().padStart(2, '0') }}</span>
+                  </div>
+                  <div class="recognition-slide-copy">
+                    <span>{{ translate(slide.year) }}</span>
+                    <h4>{{ translate(slide.title) }}</h4>
+                    <strong>{{ translate(slide.organization) }}</strong>
+                    <p>{{ translate(slide.description) }}</p>
+                    <a *ngIf="slide.document" [href]="slide.document" target="_blank" rel="noopener">
+                      {{ translate('View document') }} <i class="fas fa-arrow-up-right-from-square"
+                        aria-hidden="true"></i>
+                    </a>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            <div class="recognition-progress" [attr.aria-label]="translate('Recognition pagination')">
+              <button *ngFor="let slide of recognitionSlides; let i = index" type="button"
+                [class.active]="i === currentRecognitionSlide" (click)="goToRecognitionSlide(i)"
+                [attr.aria-label]="translate('Go to recognition ') + (i + 1)"></button>
+            </div>
+          </div>
+          <div class="quality-story" data-reveal>
+            <div class="quality-step"><span>01</span>
+              <div><small>{{ translate('LAND') }}</small><strong>{{ translate('Organic certified land') }}</strong>
+                <p>{{ translate('Raw materials are sourced from our own agricultural land, including organic certified
+                  land.') }}</p>
+              </div>
+            </div>
+            <div class="quality-line"></div>
+            <div class="quality-step"><span>02</span>
+              <div><small>{{ translate('UNIT') }}</small><strong>{{ translate('Certified processing') }}</strong>
+                <p>{{ translate('Our unit follows quality and process standards for responsible production.') }}</p>
+              </div>
+            </div>
+            <div class="quality-line"></div>
+            <div class="quality-step"><span>03</span>
+              <div><small>{{ translate('PRODUCT') }}</small><strong>{{ translate('Natural pantry range') }}</strong>
+                <p>{{ translate('The collection is built around jaggery and natural food products inspired by the
+                  farm.') }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="certification-panel" data-reveal *ngIf="credentialsVerified">
+            <div class="certification-heading"><span>{{ translate('Certifications') }}</span><strong>JAGORAY</strong>
+            </div>
+            <div class="certification-list">
+              <div *ngFor="let item of certifications; let i = index"><span>{{ (i + 1).toString().padStart(2, '0')
+                  }}</span><strong>{{ translate(item) }}</strong><i class="fas fa-check" aria-hidden="true"></i></div>
+            </div>
+            <div class="certificate-actions">
+              <ng-container *ngFor="let certificate of certificateDocuments">
+                <a *ngIf="!certificate.file.includes('example.com')" [href]="certificate.file" target="_blank"
+                  rel="noopener">
+                  {{ translate(certificate.label) }}
+                  <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                </a>
+                <span *ngIf="certificate.file.includes('example.com')" class="certificate-pending">
+                  {{ translate(certificate.label) }}
+                  <small>{{ translate('Document not available yet') }}</small>
+                </span>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery" class="gallery-section section-space">
+      <div class="container">
+        <div class="section-heading" data-reveal>
+          <div>
+            <span class="eyebrow">{{ translate('FROM OUR WORLD') }}</span>
+            <h2>{{ translate('Rooted in every frame.') }}</h2>
+          </div>
+          <p>{{ translate('Farm moments, product details and the people behind the JAGORAY journey.') }}</p>
+        </div>
+        <div class="gallery-grid">
+          <img class="gallery-card gallery-card-tall" *ngFor="let item of gallery; let i = index" [src]="item.image"
+            [alt]="galleryImageAlt(item)" role="button" tabindex="0" loading="lazy" decoding="async"
+            [style.--reveal-order]="i % 4" (click)="openGallery(item)" (keydown.enter)="openGallery(item)"
+            (keydown.space)="$event.preventDefault(); openGallery(item)" data-reveal>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact-section section-space">
+      <div class="container">
+        <div class="contact-heading" data-reveal>
+          <span class="eyebrow">{{ translate("LET'S TALK") }}</span>
+          <h2>{{ translate('Ready to bring JAGORAY to your table?') }}</h2>
+          <p>{{ translate('Doorstep delivery available in Karnataka and selected cities. Bulk and retail orders are
+            welcome.') }}</p>
+          <p>{{ translate('For product enquiries, partnerships, bulk requirements or general information, reach out to
+            us.') }}</p>
+        </div>
+
+        <div class="contact-panel" data-reveal>
+          <!-- <section class="map-policy-section section-space"> -->
+          <!-- <div class="container map-layout"> -->
+          <div class="map-card" data-reveal>
+            <span class="eyebrow">{{ translate('LOCATION') }}</span>
+            <h3>{{ translate('Visit or connect with us') }}</h3>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3827.8173901481823!2d75.18900947460621!3d16.383262130955572!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc73993a2a73e53%3A0x57a10d4df5c798ae!2zSkFHT1JBWSDgspzgsr7gspfgs4rgsrDgs4c!5e0!3m2!1sen!2sus!4v1789830947814!5m2!1sen!2sus"
+              [title]="translate('JAGORAY exact location')" allowfullscreen loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          </div>
+
+          <!-- <div class="compliance-card" data-reveal>
+          <span class="eyebrow">CERTIFICATIONS</span>
+          <h3>Compliance and documentation</h3>
+          <div class="compliance-rows">
+            <div><span>FSSAI</span><strong>{{ complianceDetails.fssaiLicenseNumber }}</strong></div>
+            <div><span>Organic</span><strong>{{ complianceDetails.organicCertificationNumber }}</strong></div>
+            <div><span>ISO</span><strong>{{ complianceDetails.isoCertificationNumber }}</strong></div>
+            <div><span>GSTIN</span><strong>{{ complianceDetails.gstin }}</strong></div>
+          </div>
+          <div class="certificate-actions">
+            <a *ngFor="let certificate of certificateDocuments" [href]="certificate.file" target="_blank" rel="noopener">
+              {{ certificate.label }}
+              <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div> -->
+          <!-- </div> -->
+          <!-- </section> -->
+
+          <aside class="contact-info">
+            <div class="contact-highlight"><span class="contact-highlight-icon"><i class="fab fa-whatsapp"
+                  aria-hidden="true"></i></span>
+              <div><small>{{ translate('FASTEST RESPONSE') }}</small><strong>{{ translate('Order or enquire on
+                  WhatsApp') }}</strong>
+                <p class="whatsapp-delivery-note">{{ translate('Doorstep delivery available across Karnataka and
+                  selected cities.') }}</p>
+                <a [href]="generalWhatsAppLink('Hello JAGORAY, I want to place an order. Please share product details and availability.')"
+                  target="_blank" rel="noopener">{{ translate('Start WhatsApp chat') }} <i class="fas fa-arrow-right"
+                    aria-hidden="true"></i></a>
+              </div>
+            </div>
+            <div class="contact-detail"><span><i class="fas fa-phone" aria-hidden="true"></i></span>
+              <div><small>{{ translate('CALL US') }}</small><a href="tel:+919740813888">+91 974 081 3888</a></div>
+            </div>
+            <div class="contact-detail"><span><i class="fas fa-envelope" aria-hidden="true"></i></span>
+              <div><small>{{ translate('EMAIL US') }}</small><a
+                  href="mailto:jagoray.organic@gmail.com">jagoray.organic@gmail.com</a></div>
+            </div>
+            <div class="contact-detail"><span><i class="fas fa-location-dot" aria-hidden="true"></i></span>
+              <div><small>{{ translate('VISIT / CORRESPONDENCE') }}</small><strong>Tejas Organic Foods</strong>
+                <p>{{ translate('Mudhol, Karnataka, India – 587 113') }}</p>
+              </div>
+            </div>
+            <div class="contact-socials">
+              <small>{{ translate('FOLLOW JAGORAY') }}</small>
+              <div class="social-links">
+                <a href="https://www.facebook.com/jagorayorganic/" target="_blank" rel="noopener">
+                  <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                  {{ translate('Facebook') }}
+                </a>
+                <a href="https://www.instagram.com/jagorayorganic/" target="_blank" rel="noopener">
+                  <i class="fab fa-instagram" aria-hidden="true"></i>
+                  {{ translate('Instagram') }}
+                </a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="floating-order-bar" [class.is-hidden]="!showFloatingBar" role="complementary"
+    [attr.aria-label]="translate('Quick order options')">
+    <div><small>{{ translate('Need a Doorstep delivery?') }}</small><strong>{{ translate('Contact JAGORAY') }}</strong>
+    </div>
+    <div class="floating-actions">
+      <a class="floating-btn whatsapp" [href]="generalWhatsAppLink()" target="_blank" rel="noopener"><i
+          class="fab fa-whatsapp" aria-hidden="true"></i><span>{{ translate('WhatsApp') }}</span></a>
+      <a class="floating-btn call" href="tel:+919740813888"><i class="fas fa-phone" aria-hidden="true"></i><span>{{
+          translate('Call') }}</span></a>
+    </div>
+  </div>
+
+  <footer class="footer-wrapper">
+    <div class="container footer-main">
+      <div class="footer-brand-block">
+        <button class="footer-brand" type="button" (click)="scrollTo('home')"
+          [attr.aria-label]="translate('JAGORAY home')">
+          <img src="assets/images/logo.png" alt="">
+          <span>JAGORAY</span>
+        </button>
+        <p>{{ translate('Organic food rooted in agriculture, tradition and a simple promise of quality.') }}</p>
+        <a class="footer-wa" [href]="generalWhatsAppLink()" target="_blank" rel="noopener">
+          <i class="fab fa-whatsapp" aria-hidden="true"></i>
+          <span>{{ translate('Start a WhatsApp chat') }}</span>
+          <i class="fas fa-arrow-right footer-wa-arrow" aria-hidden="true"></i>
+        </a>
+      </div>
+      <nav class="footer-nav" [attr.aria-label]="translate('Explore')">
+        <h4>{{ translate('Explore') }}</h4>
+        <button type="button" (click)="scrollTo('about')">{{ translate('Our Story') }}</button>
+        <button type="button" (click)="scrollTo('products')">{{ translate('Products') }}</button>
+        <button type="button" (click)="scrollTo('quality')">{{ translate('Quality') }}</button>
+        <button type="button" (click)="scrollTo('gallery')">{{ translate('Gallery') }}</button>
+        <button type="button" (click)="scrollTo('contact')">{{ translate('Contact') }}</button>
+      </nav>
+      <div class="footer-contact">
+        <h4>{{ translate('Connect') }}</h4>
+        <a href="tel:+919740813888"><i class="fas fa-phone" aria-hidden="true"></i><span>+91 974 081 3888</span></a>
+        <a href="mailto:jagoray.organic@gmail.com"><i class="fas fa-envelope"
+            aria-hidden="true"></i><span>jagoray.organic@gmail.com</span></a>
+        <span class="footer-address"><i class="fas fa-location-dot" aria-hidden="true"></i><span>{{ translate('Mudhol,
+            Karnataka, India') }}</span></span>
+        <div class="footer-socials">
+          <a href="https://www.facebook.com/jagorayorganic/" target="_blank" rel="noopener">
+            <i class="fab fa-facebook-f" aria-hidden="true"></i><span>{{ translate('Facebook') }}</span>
+          </a>
+          <a href="https://www.instagram.com/jagorayorganic/" target="_blank" rel="noopener">
+            <i class="fab fa-instagram" aria-hidden="true"></i><span>{{ translate('Instagram') }}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>© {{ currentYear }} JAGORAY · Tejas Organic Foods</span>
+      <span>{{ translate('The Organic Revolution') }}</span>
+    </div>
+  </footer>
+
+  <div class="modal-backdrop" *ngIf="selectedProduct || selectedGallery" (click)="closeModal()">
+    <div class="modal-card product-modal" *ngIf="selectedProduct" role="dialog" aria-modal="true"
+      [attr.aria-label]="translate(selectedProduct.name)" (click)="$event.stopPropagation()">
+      <button class="modal-close" type="button" [attr.aria-label]="translate('Close product details')"
+        (click)="closeModal()"><i class="fas fa-xmark" aria-hidden="true"></i></button>
+      <div class="modal-image"><img [src]="selectedProduct.image" [alt]="translate(selectedProduct.name)"></div>
+      <div class="modal-content">
+        <span class="eyebrow">{{ translate(selectedProduct.category) }}</span>
+        <h2>{{ translate(selectedProduct.name) }}</h2>
+        <p>{{ translate(selectedProduct.description) }}</p>
+        <div class="product-facts">
+          <div><span>{{ translate('Ingredients') }}</span><strong>{{ translate(selectedProduct.ingredients) }}</strong>
+          </div>
+          <div><span>{{ translate('Pack size') }}</span><strong>{{ selectedProduct.packSize }}</strong></div>
+          <div><span>{{ translate('Origin') }}</span><strong>{{ translate(selectedProduct.origin) }}</strong></div>
+        </div>
+        <a class="btn btn-dark" [href]="productWhatsAppLink(selectedProduct)" target="_blank" rel="noopener">{{
+          translate('Enquire on WhatsApp') }} <i class="fab fa-whatsapp" aria-hidden="true"></i></a>
+      </div>
+    </div>
+
+    <div class="gallery-modal" *ngIf="selectedGallery" role="dialog" aria-modal="true"
+      [attr.aria-label]="galleryImageAlt(selectedGallery)" (click)="$event.stopPropagation()">
+      <button class="modal-close" type="button" [attr.aria-label]="translate('Close gallery image')"
+        (click)="closeModal()"><i class="fas fa-xmark" aria-hidden="true"></i></button>
+      <img [src]="selectedGallery.image" [alt]="galleryImageAlt(selectedGallery)">
+    </div>
+  </div>
+</div>
