@@ -13,6 +13,8 @@ interface HeroSlide {
   image: string;
   primaryCta: string;
   secondaryCta: string;
+  advertisement?: boolean;
+  mobileImage?: string;
 }
 
 interface Product {
@@ -74,6 +76,16 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   readonly validSections = new Set(['home', 'about', 'products', 'quality', 'gallery', 'contact']);
   readonly heroSlides: HeroSlide[] = [
     {
+      badge: '',
+      title: '',
+      subtitle: '',
+      image: 'assets/advertisement/dussehra_landscape.png',
+      primaryCta: '',
+      secondaryCta: '',
+      advertisement: true,
+      mobileImage: 'assets/advertisement/dussehra_portrait.PNG'
+    },
+    {
       badge: 'Organic Roots',
       title: 'Pure sweetness, grown with care.',
       subtitle: 'Traditional jaggery and natural pantry essentials crafted for a healthier, happier kitchen.',
@@ -131,8 +143,8 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       detailLabel: 'Signature Jaggery',
       image: 'assets/Product_images/jaggery_lump.png',
       description: 'JAGORAY Organic Jaggery is crafted from organic sugarcane using traditional methods, preserving the natural character and rich caramel-like sweetness of jaggery.',
-      price: '₹100 / 1 kg',
-      packSize: '500 g | 1 kg | 2 kg',
+      price: '₹99 / 900-950 g',
+      packSize: '900-950 g',
       ingredients: 'Organic sugarcane jaggery',
       origin: 'Mudhol, Karnataka'
     },
@@ -142,7 +154,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       detailLabel: 'Everyday Sweetener',
       image: 'assets/Product_images/jaggery_powder.png',
       description: 'A naturally unrefined sweetener with a convenient granular texture, designed for beverages, cooking and everyday recipes.',
-      price: '₹140 / 1 kg',
+      price: '₹149 / 1 kg',
       packSize: '500 g | 1 kg',
       ingredients: 'Organic sugarcane jaggery',
       origin: 'Mudhol, Karnataka'
@@ -153,7 +165,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       detailLabel: 'Traditional Sweetener',
       image: 'assets/Product_images/liquid_jaggery.png',
       description: 'Smooth, pourable jaggery made for traditional recipes, beverages and modern kitchen use.',
-      price: '₹160 / 500 ml',
+      price: '₹99 / 500 g',
       packSize: '500 g | 1 kg',
       ingredients: 'Organic sugarcane jaggery',
       origin: 'Mudhol, Karnataka'
@@ -164,7 +176,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       detailLabel: 'Convenient Format',
       image: 'assets/Product_images/jaggery_cubes.png',
       description: 'Portion-friendly jaggery cubes that bring the same traditional sweetness in a simple modern format.',
-      price: '₹220 / 1 kg',
+      price: '₹99 / 500 g',
       packSize: '500 g | 1 kg',
       ingredients: 'Organic sugarcane jaggery',
       origin: 'Mudhol, Karnataka'
@@ -175,7 +187,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       detailLabel: 'Flavoured Jaggery',
       image: 'assets/Product_images/masala_jaggery_cubes.png',
       description: 'A distinctive combination of traditional jaggery and warming spices, designed as a convenient natural treat.',
-      price: '₹250 / 1 kg',
+      price: '₹149 / 500 g',
       packSize: '500 g | 1 kg',
       ingredients: 'Jaggery and selected warming spices',
       origin: 'Mudhol, Karnataka'
@@ -186,7 +198,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       detailLabel: 'Organic Pantry',
       image: 'assets/Product_images/turmeric_powder.png',
       description: 'Organic turmeric powder made for everyday cooking and traditional wellness routines.',
-      price: '₹450 / 1 kg',
+      price: '₹125 / 250g',
       packSize: '100 g | 250 g | 500 g | 1 kg',
       ingredients: 'Organic turmeric',
       origin: 'Karnataka, India'
@@ -197,7 +209,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       detailLabel: 'Organic Pantry',
       image: 'assets/Product_images/curry_leaves_powder.png',
       description: 'A convenient way to bring the aroma and character of curry leaves into everyday food preparation.',
-      price: '₹500 / 1 kg',
+      price: '₹99 / 100 g',
       packSize: '100 g | 250 g | 500 g',
       ingredients: 'Organic curry leaves',
       origin: 'Karnataka, India'
@@ -208,7 +220,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       detailLabel: 'Organic Pantry',
       image: 'assets/Product_images/moringa_powder.png',
       description: 'Finely milled moringa leaves for easy use in smoothies, cooking and everyday nutrition-focused recipes.',
-      price: '₹145 / 250 g',
+      price: '₹99 / 100 g',
       packSize: '250 g | 500 g',
       ingredients: 'Organic moringa leaves',
       origin: 'Karnataka, India'
@@ -219,7 +231,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       detailLabel: 'Organic Pantry',
       image: 'assets/Product_images/red_gongura.png',
       description: 'A tangy herbal infusion made from red gongura petals, with a bright, tart flavour. Enjoy it hot or chilled.',
-      price: '₹145 / 250 g',
+      price: '₹99 / 100 g',
       packSize: '250 g | 500 g',
       ingredients: 'Organic red gongura petals',
       origin: 'Karnataka, India'
@@ -296,13 +308,25 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     'Food safety process oversight',
     'ZED Bronze'
   ];
+  readonly certificationPartners = [
+    { name: 'PGS Green', image: 'assets/logo/pgs_green.png' },
+    { name: 'PGS Organic', image: 'assets/logo/pgs_organic.png' },
+    { name: 'Jaivik Bharat', image: 'assets/logo/jaivik_bharat.png' },
+    { name: 'ZED Bronze', image: 'assets/logo/zed_bronze.png' }
+  ];
+  readonly technologyTransferPartners = [
+    { name: 'SBI', image: 'assets/logo/sbi.png' },
+    { name: 'UASD', image: 'assets/logo/uasd.png' },
+    { name: 'ICAR', image: 'assets/logo/ICAR.png' },
+    { name: 'MPKV', image: 'assets/logo/mpkv.png' }
+  ];
   readonly credentialsVerified = false;
 
   readonly trustHighlights = [
-    { value: 'Since 2010', label: 'Rooted in organic farming and traditional processing' },
-    { value: 'Pan Karnataka', label: 'Doorstep delivery across key Karnataka locations' },
-    { value: 'Farm-led', label: 'Raw materials sourced from trusted organic agriculture' },
-    { value: 'Quality-first', label: 'Carefully selected ingredients and transparent sourcing' }
+    { value: 'Since 2010', label: 'Rooted in organic farming and traditional processing', icon: 'fas fa-calendar-check' },
+    { value: 'Pan Karnataka', label: 'Doorstep delivery across key Karnataka locations', icon: 'fas fa-truck' },
+    { value: 'Farm-led', label: 'Raw materials sourced from trusted organic agriculture', icon: 'fas fa-seedling' },
+    { value: 'Quality-first', label: 'Carefully selected ingredients and transparent sourcing', icon: 'fas fa-shield-halved' }
   ];
 
   readonly testimonials = [
@@ -416,10 +440,11 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   ];
 
   readonly complianceDetails = {
-    fssaiLicenseNumber: 'FSSAI 13623988000094',
-    organicCertificationNumber: 'NPOP-ORG-2026-00481',
-    isoCertificationNumber: 'ISO 9001:2015-2026-0482',
-    gstin: '29ABCDE1234F1Z5'
+    fssaiLicenseNumber: '11224301000069',
+    organicCertificationNumber: 'PGS India - 20251212112536',
+    // isoCertificationNumber: 'ISO 9001:2015-2026-0482',
+    udyamRegistrationNumber: 'UDYAM-KR-01-0012889',
+    gstin: '29BYTPK6690L1Z9'
   };
 
   get filteredProducts(): Product[] {

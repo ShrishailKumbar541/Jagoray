@@ -81,11 +81,20 @@
       (focusout)="onHeroFocusOut($event)" (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)">
       <div class="luxury-slider-track" [style.transform]="'translateX(-' + (currentSlide * 100) + '%)'">
         <article class="luxury-slide" *ngFor="let slide of heroSlides; let i = index"
-          [class.active]="i === currentSlide">
-          <div class="luxury-slide-image" [style.background-image]="'url(' + slide.image + ')'" aria-hidden="true">
+          [class.active]="i === currentSlide" [class.advertisement-slide]="slide.advertisement">
+          <picture *ngIf="slide.advertisement" class="luxury-advertisement-backdrop" aria-hidden="true">
+            <source media="(max-width: 640px)" [srcset]="slide.mobileImage">
+            <img [src]="slide.image" alt="">
+          </picture>
+          <picture *ngIf="slide.advertisement" class="luxury-advertisement-art">
+            <source media="(max-width: 640px)" [srcset]="slide.mobileImage">
+            <img [src]="slide.image" alt="JAGORAY Dussehra festival greeting">
+          </picture>
+          <div *ngIf="!slide.advertisement" class="luxury-slide-image"
+            [style.background-image]="'url(' + slide.image + ')'" aria-hidden="true">
           </div>
-          <div class="luxury-slide-overlay" aria-hidden="true"></div>
-          <div class="container luxury-slide-content">
+          <div class="luxury-slide-overlay" *ngIf="!slide.advertisement" aria-hidden="true"></div>
+          <div class="container luxury-slide-content" *ngIf="!slide.advertisement">
             <span class="luxury-badge">{{ translate(slide.badge) }}</span>
             <h1>{{ translate(slide.title) }}</h1>
             <p>{{ translate(slide.subtitle) }}</p>
@@ -202,7 +211,8 @@
             <div class="about-circle-copy"><span>THE</span><strong>ORGANIC</strong><span>REVOLUTION</span></div>
             <div class="about-caption">Farm → Tradition → JAGORAY</div>
           </div> -->
-            <img src="assets/images/our-story.jpg" [alt]="translate('JAGORAY organic products')">
+            <img src="assets/images/our-story.jpg"
+              [alt]="translate('JAGORAY founder with organic products at a trade exhibition')">
           </div>
           <div class="about-float-card"><i class="fas fa-seedling" aria-hidden="true"></i><span>{{ translate('Rooted in
               agriculture') }}</span></div>
@@ -294,6 +304,7 @@
             </button>
             <div class="product-body">
               <h3>{{ translate(product.name) }}</h3>
+              <span class="product-price-tag">{{ product.price }}</span>
               <div class="product-inline-facts">
                 <span><strong>{{ translate('Pack:') }}</strong> {{ product.packSize }}</span>
                 <!-- <span><strong>Origin:</strong> {{ product.origin }}</span> -->
@@ -343,6 +354,7 @@
             </div>
           </div>
         </div>
+
       </div>
     </section>
 
@@ -359,6 +371,7 @@
 
         <div class="trust-grid">
           <article class="trust-card" *ngFor="let item of trustHighlights" data-reveal>
+            <span class="trust-icon" aria-hidden="true"><i [class]="item.icon"></i></span>
             <span class="fact">{{ translate(item.value) }}</span>
             <strong>{{ translate(item.label) }}</strong>
           </article>
@@ -443,10 +456,12 @@
               <span class="eyebrow">CERTIFICATIONS</span>
               <h3>Compliance and documentation</h3>
               <div class="compliance-rows">
-                <div><span>FSSAI</span><strong>{{ complianceDetails.fssaiLicenseNumber }}</strong></div>
-                <div><span>Organic</span><strong>{{ complianceDetails.organicCertificationNumber }}</strong></div>
-                <div><span>ISO</span><strong>{{ complianceDetails.isoCertificationNumber }}</strong></div>
-                <div><span>GSTIN</span><strong>{{ complianceDetails.gstin }}</strong></div>
+                <div><span><strong>FSSAI</strong></span><strong>{{ complianceDetails.fssaiLicenseNumber }}</strong></div>
+                <div><span><strong>Organic</strong></span><strong>{{ complianceDetails.organicCertificationNumber }}</strong></div>
+                <!-- <div><span>ISO</span><strong>{{ complianceDetails.isoCertificationNumber }}</strong></div> -->
+                 <div><span><strong>UDYAM</strong></span><strong>{{ complianceDetails.udyamRegistrationNumber }}</strong></div>
+                <div><span><strong>GSTIN</strong></span><strong>{{ complianceDetails.gstin }}</strong></div>
+
               </div>
               <div class="certificate-actions">
                 <a *ngFor="let certificate of certificateDocuments" [href]="certificate.file" target="_blank"
@@ -583,6 +598,25 @@
               </ng-container>
             </div>
           </div>
+        </div>
+
+        <div class="quality-partner-groups" data-reveal>
+          <section class="quality-partner-group" [attr.aria-label]="translate('Organic certified by')">
+            <h3><i class="fas fa-leaf" aria-hidden="true"></i>{{ translate('Organic certified by') }}</h3>
+            <div class="quality-logo-grid">
+              <div class="quality-logo-tile" *ngFor="let partner of certificationPartners">
+                <img [src]="partner.image" [alt]="translate(partner.name)" loading="lazy" decoding="async">
+              </div>
+            </div>
+          </section>
+          <section class="quality-partner-group" [attr.aria-label]="translate('Technology transferred by')">
+            <h3><i class="fas fa-flask" aria-hidden="true"></i>{{ translate('Technology transferred by') }}</h3>
+            <div class="quality-logo-grid">
+              <div class="quality-logo-tile" *ngFor="let partner of technologyTransferPartners">
+                <img [src]="partner.image" [alt]="translate(partner.name)" loading="lazy" decoding="async">
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </section>
